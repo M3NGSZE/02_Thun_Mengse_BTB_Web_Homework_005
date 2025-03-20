@@ -4,10 +4,11 @@ import { formatYear } from "@/app/data/helper";
 import Link from "next/link";
 import React from "react";
 
-export default async function page() {
-  const allCartoons = await getAllCartoons();
-  const cartoons = await allCartoons.payload;
-  // console.log((cartoons))
+export default async function page({ searchParams }) {
+  const genres = (await searchParams)?.category || "";
+  const search = (await searchParams)?.search || "";
+  const cartoons = await getAllCartoons(genres, search);
+  const allCartoons = await cartoons.payload;
 
   return (
     <div>
@@ -15,7 +16,7 @@ export default async function page() {
 
       <div className="px-8 overflow-auto h-[calc(100vh_-200px)] pb-10">
         <div className="grid grid-cols-3 mt-20 gap-y-44 gap-x-16 mx-auto w-full">
-          {cartoons.map((cartoon) => {
+          {allCartoons.map((cartoon) => {
             return (
               <div className="card flex flex-col gap-y-2" key={cartoon.id}>
                 <Link

@@ -1,7 +1,22 @@
+"use client"
+import { useRouter, useSearchParams } from "next/navigation";
+import { useRef } from "react";
+
 export default function SearchBar() {
+    const router = useRouter();
+    const searchRef = useRef(null);
+    const params = useSearchParams();
+    const search = params.get("search") ? params.get("search") : "";
+
     return (
-        <div className="relative">
-            <button className="cursor-pointer">
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                router.replace(`?search=${searchRef.current.value}`);
+            }}
+            className="relative"
+        >
+            <button type="submit" className="cursor-pointer">
                 <svg
                     className="absolute top-3.5 left-5"
                     xmlns="http://www.w3.org/2000/svg"
@@ -20,11 +35,13 @@ export default function SearchBar() {
                 </svg>
             </button>
             <input
+                ref={searchRef}
+                defaultValue={search}
                 placeholder="Search book or category"
                 className="w-full bg-white py-3 pl-14 pr-5 rounded-full h-12 border-none focus:border-none focus:ring-0 focus:outline-deep-teal"
                 type="text"
                 name="search"
             />
-        </div>
+        </form>
     );
 }

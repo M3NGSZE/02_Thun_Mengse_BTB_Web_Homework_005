@@ -3,8 +3,10 @@ import { getAllBooks } from "@/app/data/bookservice";
 import Link from "next/link";
 import React from "react";
 
-export default async function page() {
-  const books = await getAllBooks();
+export default async function page({ searchParams }) {
+  const category = (await searchParams)?.category || "";
+  const search = (await searchParams)?.search || "";
+  const books = await getAllBooks(category, search);
   const allBooks = await books.payload;
   // console.log(allBooks);
 

@@ -1,6 +1,6 @@
-export async function getAllCartoons(){
+export async function getAllCartoons(id = "", search = ""){
     try {
-        const response = await fetch("https://nextjs-homework005.vercel.app/api/cartoon", {
+        const response = await fetch(`https://nextjs-homework005.vercel.app/api/cartoon?genre=${id}&search=${search}`, {
             caches: "force-cache",
             next: { revalidate: 5 },
         })
