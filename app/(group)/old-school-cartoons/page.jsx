@@ -1,5 +1,5 @@
 import Display from "@/app/components/dymic/display";
-import { getAllCartoons } from "@/app/data/cartoonservice";
+import { getAllCartoonGenreById, getAllCartoons } from "@/app/data/cartoonservice";
 import { formatYear } from "@/app/data/helper";
 import Link from "next/link";
 import React from "react";
@@ -10,9 +10,13 @@ export default async function page({ searchParams }) {
   const cartoons = await getAllCartoons(genres, search);
   const allCartoons = await cartoons.payload;
 
+  const findCate = await getAllCartoonGenreById(genres);
+  const find = await findCate.payload
+  const catoonName = (await find?.cartoon_genre) || "Old School Cartoons";
+
   return (
     <div>
-      <Display header={"Old School Cartoons"} type={"cartoon"} />
+      <Display header={catoonName} type={"cartoon"} />
 
       <div className="px-8 overflow-auto h-[calc(100vh_-200px)] pb-10">
         <div className="grid grid-cols-3 mt-20 gap-y-44 gap-x-16 mx-auto w-full">

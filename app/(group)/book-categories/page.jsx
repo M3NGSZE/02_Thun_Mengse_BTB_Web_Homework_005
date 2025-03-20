@@ -1,5 +1,5 @@
 import Display from "@/app/components/dymic/display";
-import { getAllBooks } from "@/app/data/bookservice";
+import { getAllBookCategoryById, getAllBooks } from "@/app/data/bookservice";
 import Link from "next/link";
 import React from "react";
 
@@ -8,11 +8,14 @@ export default async function page({ searchParams }) {
   const search = (await searchParams)?.search || "";
   const books = await getAllBooks(category, search);
   const allBooks = await books.payload;
-  // console.log(allBooks);
+
+  const findCate = await getAllBookCategoryById(category)
+  const find = await findCate.payload
+  const cateName = await find?.book_cate_name || "All Books"
 
   return (
     <div>
-      <Display header={"All Books"} type={"book"} />
+      <Display header={cateName} type={"book"} />
 
       <div className="px-8 overflow-auto h-[calc(100vh_-200px)] pb-10">
         <div className="grid grid-cols-2 mt-40 gap-y-44 gap-x-10 mx-auto w-full">
